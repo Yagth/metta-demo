@@ -31,8 +31,8 @@ It parses natural language queries into structured JSON, searches the network da
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/yourusername/network-rag-chatbot.git
-cd network-rag-chatbot
+git clone https://github.com/yourusername/metta-demo
+cd metta-demo
 ```
 2. **Create and activate a virtual environment**
 ```bash
