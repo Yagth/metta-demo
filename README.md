@@ -44,7 +44,7 @@ source .venv/bin/activate   # On Windows: .venv\Scripts\activate
     pip install -r requirements.txt
 ```
 4. **Setup your google api Key**
-    create .env file and add your google api key like the follwoing
+- create .env file and add your google api key like the follwoing
     ```GEMINI_API_KEY="your api key"```
 ### Running the App
 
