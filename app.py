@@ -1,7 +1,7 @@
 import gradio as gr
 import json
 from src.text_to_json_parser import parse_question_to_json, _call, _txt
-from src.json_to_metta_parser import find_by_json
+from src.utils import find_by_json
 
 # --- Chat Function ---
 def chat_with_rag(question):

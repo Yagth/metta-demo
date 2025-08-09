@@ -97,3 +97,4 @@ if __name__ == "__main__":
                 print("generate_content signature:", inspect.signature(MODEL.generate_content))
             if MODEL_IS_OBJ and hasattr(MODEL, "start_chat"):
                 print("start_chat signature:", inspect.signature(MODEL.start_chat))
+                
