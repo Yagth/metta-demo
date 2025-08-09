@@ -68,3 +68,11 @@
 (Hobby Mike Singing)
 (Hobby Noah Coding)
 (Hobby Olivia Traveling)
+
+! (match &self
+    (,  ($y Alice $p1) 
+        (Profession $p1 Nurse)
+    )
+
+    ($p1)
+)
