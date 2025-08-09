@@ -3,6 +3,31 @@ import json
 from src.text_to_json_parser import parse_question_to_json, _call, _txt
 from src.utils import find_by_json
 
+
+def normalize_results(raw_results, force_depth=1):
+    """
+    Convert MeTTa raw results into a list of (name, depth) tuples.
+    Handles multiple matches per row and can hardcode depth.
+    """
+    parsed = []
+    for row in raw_results:
+        if not row:
+            continue
+        for expr in row:  # iterate over all matches in this row
+            if isinstance(expr, tuple) and len(expr) == 2:
+                name, depth = expr
+            else:
+                parts = str(expr).strip("()").split()
+                if len(parts) >= 1:
+                    name = parts[0]
+                    depth = parts[1] if len(parts) > 1 else force_depth
+                else:
+                    continue
+            if force_depth is not None:
+                depth = force_depth
+            parsed.append((name, depth))
+    return parsed
+
 # --- Chat Function ---
 def chat_with_rag(question):
     if not question.strip():
@@ -15,15 +40,14 @@ def chat_with_rag(question):
         return f"Error parsing question: {e}", ""
     
     # Step 2: Run search
-    results = find_by_json(parsed_query)
+    raw_results = find_by_json(parsed_query)
 
-    # Step 3: Build context for LLM
+    # Step 3: Normalize results and build context
+    results = normalize_results(raw_results, force_depth=1)
     if not results:
         context = "No matching people found in the network."
     else:
-        context_lines = []
-        for name, depth in results:
-            context_lines.append(f"- {name} (found at depth {depth})")
+        context_lines = [f"- {name} (found at depth {depth})" for name, depth in results]
         context = "\n".join(context_lines)
 
     # Step 4: Ask LLM to generate friendly answer
@@ -94,6 +118,7 @@ with gr.Blocks() as demo:
 # --- Launch App ---
 if __name__ == "__main__":
     demo.launch()
+
 
 # "Do I have someone who is a doctor in my network?",
 #         "Is there a nurse within 2 hops from me?",
