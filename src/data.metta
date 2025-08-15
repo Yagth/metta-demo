@@ -88,4 +88,4 @@
                     (- $maxDepth 1))))))
 
 ; !(getConnections () ($any Alice $x) (Profession $x Nurse) 1)
-! (getConnections () (Classmate Alice $x) (Hobby $x Chess) 2)
+; ! (getConnections () (Classmate Alice $x) (Hobby $x Chess) 2)
