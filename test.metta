@@ -1,4 +1,3 @@
-
 (Friend Alice Bob)
 (Friend Alice Carol)
 (Friend Alice Emma)
@@ -69,10 +68,23 @@
 (Hobby Noah Coding)
 (Hobby Olivia Traveling)
 
-! (match &self
-    (,  ($y Alice $p1) 
-        (Profession $p1 Nurse)
-    )
+(= (getConnections $acc ($relation $seedName $newConnect) ($constraintType $newConnect $constraint) $maxDepth)
+   (if (== $maxDepth 1)
+       (match &self
+              (, ($relation $seedName $newConnect) ($constraintType $newConnect $constraint))
+              ($acc ($relation $seedName $newConnect $maxDepth))
+       )
+       (union
+         (match &self
+                (, ($relation $seedName $newConnect) ($constraintType $newConnect $constraint))
+                ($acc ($relation $seedName $newConnect $maxDepth))
+         )
+         (match &self
+                ($relation $seedName $newConnect)
+                (getConnections
+                    ($acc ($relation $seedName $newConnect $maxDepth))
+                    ($any $newConnect $nextConnect)
+                    ($constraintType $nextConnect $constraint)
+                    (- $maxDepth 1))))))
 
-    ($p1)
-)
+;; !(getConnections () ($any Alice $x) (Profession $x Nurse) 2)
