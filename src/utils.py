@@ -31,23 +31,19 @@ def json_to_metta_query(data):
     relation = data["relation"]
     attr_type = data["target_attribute"]["type"]
     attr_value = data["target_attribute"]["value"].strip().title()
-
-    depth_value = 1  # Always fixed to 1
+    depth_value = data["max_depth"]
 
     # Build composite pattern
     if relation.lower() == "any":
         # Relation is not specified — match any relation with a variable $rel
-        pattern = f"(, ($rel {subject} $p1) ({attr_type} $p1 {attr_value}))"
+        pattern = f"! (getConnections () ($any {subject} $x) ({attr_type} $x {attr_value}) {depth_value})"
     else:
         # Single relation
-        pattern = f"(, ({relation} {subject} $p1) ({attr_type} $p1 {attr_value}))"
+        pattern = f"! (getConnections () ({relation} {subject} $x) ({attr_type} $x {attr_value}) {depth_value})"
 
-    query = f"""! (match &self
-    {pattern}
-    ($p1 {depth_value})
-)"""
+    
 
-    return query
+    return pattern
 
 
 # ---------------------------
@@ -74,6 +70,6 @@ if __name__ == "__main__":
         "subject": "Alice",
         "relation": "any",  # can be "Friend", "Family", etc., or "any"
         "target_attribute": {"type": "Profession", "value": "nurse"},
-        "max_depth": 1  # ignored
+        "max_depth": 2  # ignored
     }
     find_by_json(example_json)

@@ -59,10 +59,13 @@ Structured query: {json.dumps(parsed_query, indent=2)}
 Here is the search result from the database:
 {context}
 
+Example: Query Result: ((() (Friend Alice Bob 2)) (Colleague Bob Carol 1)), (() (Friend Alice Carol 2))
+         Interpretation: Carol , who is a colleague of Bob who is a friend of Alice plays Chess.
+
 Please provide a concise, user-friendly answer.
 If there are multiple people, list them in order of depth (closer first).
 Optionally mention the search depth in your answer.
-If no results, politely say that none were found.
+If no results, politely say that none were found. If you found unique friends, mention their name and the relation with Alice as the example provided above.
     """.strip()
 
     try:
