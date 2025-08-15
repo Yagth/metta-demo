@@ -68,30 +68,6 @@
 (Hobby Noah Coding)
 (Hobby Olivia Traveling)
 
-; ! (match &self
-;     (,  ($y Alice $p1) 
-;         (Profession $p1 Nurse)
-;     )
-;
-;     ($p1)
-; )
-
-
-;; (= (getConnections ($relation $seedName $newConnect) ($constraintType $newConnect $constraint) $maxDepth)
-;;    (if (== $maxDepth 0)
-;;      (empty)
-;;      (if (== (collapse (match &self (, ($relation $seedName $newConnect) ($constraintType $newConnect $constraint)) ($relation $seedName $newConnect $constraint))) ())
-;;          (getConnections ($relation $newConnect $nextConnect) ($constraintType $nextConnect $constraint) (- $maxDepth 1))
-;;          (unique (match &self (, ($relation $seedName $newConnect) ($constraintType $newConnect $constraint)) ($newConnect $constraint $maxDepth)))
-;;        )))
-
-;; (= (getConnections ($relation $seedName $newConnect) ($constraintType $newConnect $constraint) $maxDepth)
-;;    (if (== $maxDepth 0)
-;;        (empty)
-;;        (union
-;;          (match &self (, ($relation $seedName $newConnect) ($constraintType $newConnect $constraint)) ($relation $seedName $newConnect $maxDepth))
-;;          (match &self ($relation $seedName $newConnect) (getConnections ($any $newConnect $nextConnect) ($constraintType $nextConnect $constraint) (- $maxDepth 1))))))
-
 (= (getConnections $acc ($relation $seedName $newConnect) ($constraintType $newConnect $constraint) $maxDepth)
    (if (== $maxDepth 1)
        (match &self
